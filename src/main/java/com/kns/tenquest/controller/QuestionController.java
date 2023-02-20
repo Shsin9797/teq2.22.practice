@@ -19,6 +19,7 @@ public class QuestionController {
     QuestionServices questionServices;
 
 
+    //질문  객체 전체를  화면에 표시하기  (확인)  : GET
     @RequestMapping(value = "/view/question", method = RequestMethod.GET)
     public String questionView(Model model){
 
@@ -27,4 +28,11 @@ public class QuestionController {
         return "question_view";
 
     }
+
+
+    //질문 추가하기 : POST  : 데이터 추가 : 개발자만 가능
+
+    //질문 수정하기 : UPDATE : 데이터 수정: 개발자만 가능
+
+    //질문 삭제하기 : DELETE : 데이터 삭제: 개발자만 가능
 }
