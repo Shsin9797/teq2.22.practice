@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class QuestionServices {
+public class QuestionService {
 
     @Autowired
     QuestionRepository questionRepository;
