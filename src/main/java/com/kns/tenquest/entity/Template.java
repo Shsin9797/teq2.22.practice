@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Data
+@Data// setter 없도록 수정필요
 @Table(name="template_table")
 @Entity
 public class Template {

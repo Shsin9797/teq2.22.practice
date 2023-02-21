@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.UUID;
 
 
-@Data
+@Data// setter 없도록 수정필요
 @Table(name="question_table")
 @Entity
 public class Question {

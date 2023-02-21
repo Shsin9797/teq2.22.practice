@@ -27,6 +27,8 @@ public class CategoryController {
         return "category_view";
     }
 
+
+
     //카테고리 추가하기 : POST  : 데이터 추가 : 개발자만 가능
 
     //카테고리 수정하기 : UPDATE : 데이터 수정: 개발자만 가능

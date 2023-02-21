@@ -29,6 +29,8 @@ public class QuestionController {
 
     }
 
+    //특정 카테고리에 해당하는 질문 확인하기 (외래키이용) : GET : 데이터 가져와서 뿌려주기
+
 
     //질문 추가하기 : POST  : 데이터 추가 : 개발자& 이용자
 
