@@ -20,7 +20,7 @@ public class TemplateController {
 
 
     //템플릿 확인하기(전체) : GET  : 데이터 가져와서 뿌려주기
-    @RequestMapping(value="/view/template",method= RequestMethod.GET)
+    @RequestMapping(value="/view/templates",method= RequestMethod.GET)
     public String templateView(Model model){
         // Temporarily implemented. Just for test.
         List<Template> templateList = templateService.getAllTemplates();

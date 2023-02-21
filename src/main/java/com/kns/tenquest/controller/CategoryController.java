@@ -19,7 +19,7 @@ public class CategoryController {
 
 
     //카테고리 확인하기(전체) : GET  : 데이터 가져와서 뿌려주기
-    @RequestMapping(value="/view/category",method= RequestMethod.GET)
+    @RequestMapping(value="/view/categories",method= RequestMethod.GET)
     public String categoryView(Model model){
         // Temporarily implemented. Just for test.
         List<Category> categoryList = categoryService.getAllCategories();

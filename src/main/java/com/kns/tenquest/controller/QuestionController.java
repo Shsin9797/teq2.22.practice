@@ -20,7 +20,7 @@ public class QuestionController {
 
 
     //질문  객체 전체를  화면에 표시하기  (확인)  : GET
-    @RequestMapping(value = "/view/question", method = RequestMethod.GET)
+    @RequestMapping(value = "/view/questions", method = RequestMethod.GET)
     public String questionView(Model model){
 
         List<Question> questionList = questionServices.getAllQuestions();
