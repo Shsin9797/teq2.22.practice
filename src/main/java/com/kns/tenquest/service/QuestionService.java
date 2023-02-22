@@ -16,4 +16,11 @@ public class QuestionService {
     public List<Question> getAllQuestions(){
         return questionRepository.findAll();
     }
+
+    //특정한 question_created_by 컬럼 값에 해당하는 질문객체 들을 찾아서 리스트로 반환
+    public List<Question> getAllQuestionsByQuestionCreatedBy(String memberId) {
+
+
+        return questionRepository.findAllByQuestionCreatedBy(memberId);
+    }
 }

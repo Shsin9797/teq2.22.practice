@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Controller // 어떤 요청이랑 어떤 함수(api)를 맵핑하면 좋을지 알려주는 역할
 public class QuestionController {
@@ -30,7 +30,7 @@ public class QuestionController {
 
 
 
-    //질문  객체 전체를 html 이용하여 화면에 표시하기  (확인)  : GET
+    //질문  객체 전체를 html 이용하여 화면에 표시하기  (확인)  : GET //개발자용
     @RequestMapping(value = "/view/questions", method = RequestMethod.GET)
     public String questionView(Model model){
 
@@ -45,24 +45,30 @@ public class QuestionController {
     //RestController 구현 부분 : 데이터만 프론트에 전달
     // **********************************GET ( 자료 찾아오기만 하는부분 )*************************************
 
-    //전체 질문지 보내주기1// 개발자용 ( 이상한 질문추가 됐는지 아닌지 확인할때 쓸수있을듯 )
-    // question_created_by 가 개발자의 member_id 인 경우에만
-    // (user_id)가 develop 인경우의 UUID 찾는 함수..( MemberController가 갖고있는 함수) 이용해보려고했는데 안됨.. static 이어야한다고)
+    //전체 질문 객체들 정보 보내주기
     @ResponseBody
-    @RequestMapping(value = "get/questions",method=RequestMethod.GET)
-    public List<Question> apiGetAllQuestions(@RequestParam(name = "questionCreatedBy",required = false,defaultValue ="") String question_created_by) {
+    @RequestMapping(value = "get/questions",method=RequestMethod.GET) // 아이디 받아서 그걸로 비교하면 될듯
+    public List<Question> apiGetAllQuestions(@RequestParam(name = "accessId",defaultValue ="developer") String accessId) { // 접근중인 사람의 id 받아오기
 
 
-        //String member_id2= MemberController.apiGetMemberIdByUserId("developer"); //이거 안됨.. . MemberController 의 객체를 만들고 해야함..
+        // 현재 접근중인 사람의 memberId : UUID(String)   가져오는 코드
+        String accessMemberId =  memberController.apiGetMemberIdByUserId(accessId);
 
-        //접근중인 사람의 memeberId
 
+            //전체 질문 객체들 보내주기1// 개발자용 ( 이상한 질문추가 됐는지 아닌지 확인할때 쓸수있을듯 )
+        if (accessMemberId.equals(memberIdForDeveloper)) { // 멤버 id 가 developer 의 id와 동일한경우 ( 개발자가 접근하는경우)
+            return questionService.getAllQuestions(); // 모든 질문 객체들 보냄
 
-        if (현재접근중인사람의memberId.equals(member_id)) {
-            return questionService.getAllQuestions();
         }else{
-            return null;
-        } // null 대문자 안됨
+            //전체 질문 객체들 보내주기2// 사용자용
+            //  질문 객체들 중에서도 accessMemberId  가  question_created_by 컬럼값 OR  memberIdForDeveloper 와 같은 경우만 반환한다
+            List<Question> allQuestionsForAccessor = new ArrayList<Question>(); // 빈리스트 생성
+            // 리스트에 추가
+            allQuestionsForAccessor.addAll(questionService.getAllQuestionsByQuestionCreatedBy(accessMemberId));
+            allQuestionsForAccessor.addAll( questionService.getAllQuestionsByQuestionCreatedBy(memberIdForDeveloper));
+            return allQuestionsForAccessor;
+
+        }
 
 
     }
@@ -70,8 +76,7 @@ public class QuestionController {
 
 
 
-    //전체 질문지 보내주기2// 사용자용
-    // 전체 질문지 중에서도 question_created_by  와 현재접근중인 멤버의 member_id 가 같은지 확인하고 같은경우만 반환한다
+
 
 
     //카테고리 별 확인 //특정 카테고리에 해당하는 질문 확인하기 (외래키 question_category_id 이용) : GET : 데이터 가져와서 뿌려주기
@@ -88,6 +93,8 @@ public class QuestionController {
 
 
 
+
+    //질문지 내용만 확인 하는 거
 
 
 
