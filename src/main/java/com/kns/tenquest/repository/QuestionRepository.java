@@ -9,6 +9,10 @@ import java.util.UUID;
 
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, UUID> {
+
      List<Question> findAllByQuestionCreatedBy(String memberId);
+
+     List<Question> findAllByQuestionCategoryId(int questionCategoryId);
+
 
 }

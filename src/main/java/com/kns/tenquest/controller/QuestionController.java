@@ -47,7 +47,7 @@ public class QuestionController {
 
     //전체 질문 객체들 정보 보내주기
     @ResponseBody
-    @RequestMapping(value = "get/questions",method=RequestMethod.GET) // 아이디 받아서 그걸로 비교하면 될듯
+    @RequestMapping(value = "get/questions",method=RequestMethod.GET) // 접근 아이디 받아서 그걸로 비교하면 될듯
     public List<Question> apiGetAllQuestions(@RequestParam(name = "accessId",defaultValue ="developer") String accessId) { // 접근중인 사람의 id 받아오기
 
 
@@ -76,16 +76,46 @@ public class QuestionController {
 
 
 
-
-
-
     //카테고리 별 확인 //특정 카테고리에 해당하는 질문 확인하기 (외래키 question_category_id 이용) : GET : 데이터 가져와서 뿌려주기
-         //사용자 지정  아닌경우(question_category_id != 1)
+    @ResponseBody
+    @RequestMapping(value="get/questions/category",method=RequestMethod.GET)
+
+
+    public List<Question> apiGetQuestionsInCategory(@RequestParam(name="questionCategoryId",required = false,defaultValue = "") int questionCategoryId,
+                                                    @RequestParam(name="accessId") String accessId){
+            //사용자 지정  아닌경우(question_category_id != 1)
+        if (questionCategoryId != 1){
+            // 해당 question_category_id 컬럼 값과 같은 레코드 전체 값 반환  (나중에 question_content 컬럼값 만 반환하는게 나을지 물어봐야할듯
+                return questionService.getQuestionsByQuestionCategoryId(questionCategoryId);
+
+            //사용자 지정인 경우 (question_category_id != 1)
+            // question_created_by  와 accessMemberId 가 같은지 확인하고 같은경우만 반환한다  => questionCategoryId ==1 이고 question_created_by == accessId 인 레코드 반환
+
+        }else{
+                //접근하는 이용자의 MemberId를 매개변수로 전달받은 accessId(userId) 로 찾기
+                String accessMemberId = memberController.apiGetMemberIdByUserId(accessId);
 
 
 
-         //사용자 지정인 경우 (question_category_id != 1)
-         // question_created_by  와 member_id 가 같은지 확인하고 같은경우만 반환한다
+                return null; // 구현예정
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
 
 
 
